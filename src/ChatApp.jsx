@@ -5,7 +5,7 @@ const time = (iso) => new Date(iso).toLocaleTimeString([], { hour: "numeric", mi
 const bg = (g) => (g || "?").replace("-", "\u2212");
 const QUICK = ["I am on my way", "Which gate should I use?", "Can you come earlier?", "Thank you"];
 
-export default function ChatApp({ session, onSignOut }) {
+export default function ChatApp({ session, onSignOut, onOpenHospitalPortal }) {
   const me = session.user.id;
   const [convos, setConvos] = useState([]);
   const [openReqs, setOpenReqs] = useState([]);
@@ -112,8 +112,20 @@ export default function ChatApp({ session, onSignOut }) {
     <div className={`rd-app ${thread ? "in-thread" : ""}`}>
       <aside className="rd-list">
         <div className="rd-head">
-          <div className="rd-brand"><span className="rd-drop sm" />Red Drop
-            <button className="rd-link" onClick={onSignOut}>Sign out</button></div>
+          <div className="rd-brand">
+            <span className="rd-drop sm" />Red Drop
+            {onOpenHospitalPortal && (
+              <button
+                type="button"
+                className="rd-btn sm"
+                onClick={onOpenHospitalPortal}
+                style={{ marginLeft: "10px", fontSize: "11px", padding: "4px 10px !important", cursor: "pointer" }}
+              >
+                🏥 Hospital Portal
+              </button>
+            )}
+            <button className="rd-link" onClick={onSignOut}>Sign out</button>
+          </div>
           <p>Chats with donors and requesters</p>
           <input className="rd-search" value={q} onChange={(e) => setQ(e.target.value)}
             placeholder="Search by name or hospital" aria-label="Search chats" />
